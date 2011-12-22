@@ -1,0 +1,899 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 4.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     20365,        636]*)
+(*NotebookOutlinePosition[     24462,        758]*)
+(*  CellTagsIndexPosition[     24205,        744]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["mEngine: make MATLAB a numerical engine for Mathematica", "Title",
+  FontSize->18],
+
+Cell["\<\
+Version 0.61
+Robert
+E-mail: zhangchenhui99@mails.tsinghua.edu.cn
+Documentation last revised: 2003.3.23\
+\>", "Subtitle",
+  FontSize->14],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Subsection",
+  CellTags->{"S5.2.1", "1.1"}],
+
+Cell[TextData[{
+  "mEngine is a facility for sharing data between ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " and MATLAB via ",
+  StyleBox["MathLink",
+    FontSlant->"Italic"],
+  ". It's in fact a collection of wrapper functions to the MATLAB Engine \
+Library for call from ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  ". You can put your variables from ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " to the MATLAB workspace, do some calculations, and get them back, thus \
+making MATLAB a numerical engine for ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "."
+}], "Text",
+  CellTags->{"S5.2.1", "1.2"}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Installation", "Subsection"],
+
+Cell[TextData[{
+  "Copy mEngine.m and mEngine.exe to under <",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  ">\\AddOns\\Applications, or anywhere on your $Path, and it's done."
+}], "Text"],
+
+Cell[TextData[{
+  "mEngine is implemented as a package that internally installs mEngine.exe. \
+Unlike notebooks and m-files that are platform-independent, mEngine.exe only \
+runs under the Windows OS. It requires that both ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " and MATLAB be installed."
+}], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Using mEngine", "Subsection"],
+
+Cell[TextData[{
+  "The primal need for mEngine is to exchange n-dimensional arrays between ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " and MATLAB sessons. The arrays can be real or complex."
+}], "Text"],
+
+Cell["\<\
+mPut[\"x\"]\t\tput variable x to the MATLAB workspace
+mGet[\"x\"]\t\tget variable x from the MATLAB workspace
+mCmd[\"command\"]\texecute command in the MATLAB workspace\
+\>", "Text",
+  CellFrame->True,
+  Background->GrayLevel[0.833326]],
+
+Cell[TextData[{
+  "Comunication between ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " and MATLAB sessions"
+}], "Caption",
+  CellTags->"S5.2.1"],
+
+Cell["This loads the package.", "MathCaption",
+  CellTags->{"S5.2.1", "1.3"}],
+
+Cell["<<mEngine`", "Input",
+  CellLabel->"In[1]:=",
+  CellTags->"S5.2.1"],
+
+Cell[TextData[{
+  "Assign your data to a ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " variable before you put it into MATLAB. Here we name it x"
+}], "MathCaption",
+  CellTags->{"S5.2.1", "1.3"}],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"x", "=", 
+        RowBox[{"(", GridBox[{
+              {"2", \(-5\), \(-6\)},
+              {\(\@5\), "12", "7"},
+              {\(-9\), "0", \(\@3\)}
+              }], ")"}]}], ";"}]], "Input",
+  CellLabel->"In[2]:=",
+  CellTags->"S5.2.1"],
+
+Cell["\<\
+This will put the variable x to the MATLAB workspace. Remember to \
+enclose your varialbe within double quotes, so that the name is a string. If \
+it is the first time, a message will tell you that MATLAB is starting.\
+\>", \
+"MathCaption",
+  CellTags->{"S5.2.1", "1.5"}],
+
+Cell[CellGroupData[{
+
+Cell["mPut[\"x\"]", "Input",
+  CellLabel->"In[3]:=",
+  CellTags->"S5.2.1"],
+
+Cell[BoxData[
+    \(eng::"stMLB" \(\(:\)\(\ \)\) "Starting MATLAB..."\)], "Message",
+  CellLabel->"From In[3]:="],
+
+Cell[BoxData[
+    \("x"\)], "Output",
+  CellLabel->"Out[3]="]
+}, Open  ]],
+
+Cell["\<\
+Now you can use mCmd to enquire x. Any valid MATLAB command can be \
+the argument to mCmd.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(mCmd["\<x\>"]\)], "Input",
+  CellLabel->"In[4]:="],
+
+Cell[BoxData[
+    \("\nx =\n\n    2.0000   -5.0000   -6.0000\n    2.2361   12.0000    \
+7.0000\n   -9.0000         0    1.7321\n\n"\)], "Output",
+  CellLabel->"Out[4]="]
+}, Open  ]],
+
+Cell["\<\
+We'll use MATLAB to find the inverse of x. First, let's look up the \
+syntax of the inverse function in MATLAB.\
+\>", "MathCaption",
+  CellTags->{"S5.2.1", "1.6"}],
+
+Cell[CellGroupData[{
+
+Cell["mCmd[\"help inv\"]", "Input",
+  CellLabel->"In[5]:=",
+  CellTags->"S5.2.1"],
+
+Cell[BoxData[
+    \("\n INV    Matrix inverse.\n    INV(X) is the inverse of the square \
+matrix X.\n    A warning message is printed if X is badly scaled or\n    \
+nearly singular.\n \n    See also SLASH, PINV, COND, CONDEST, LSQNONNEG, \
+LSCOV.\n\n"\)], "Output",
+  CellLabel->"Out[5]="]
+}, Open  ]],
+
+Cell["\<\
+If you intend to get any data back from MATLAB, name it. In this \
+case, we name it y.\
+\>", "MathCaption",
+  CellTags->{"S5.2.1", "1.6"}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(mCmd["\<y=inv(x)\>"]\)], "Input",
+  CellLabel->"In[6]:="],
+
+Cell[BoxData[
+    \("\ny =\n\n   -0.0764   -0.0318   -0.1360\n    0.2458    0.1857    \
+0.1008\n   -0.3970   -0.1654   -0.1293\n\n"\)], "Output",
+  CellLabel->"Out[6]="]
+}, Open  ]],
+
+Cell["Now Get y", "MathCaption",
+  CellTags->{"S5.2.1", "1.7"}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+y=mGet[\"y\"];
+MatrixForm[y]\
+\>", "Input",
+  CellLabel->"In[7]:=",
+  CellTags->"S5.2.1"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(-0.07639550730052462`\), \(-0.03183146137521859`\), \
+\(-0.1359964806732441`\)},
+            {"0.24579703749201812`", "0.1857487656216742`", 
+              "0.10077121573897507`"},
+            {\(-0.39696270034352327`\), \(-0.16540112514313468`\), \
+\(-0.12930817334022726`\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output",
+  CellLabel->"Out[8]//MatrixForm="]
+}, Open  ]],
+
+Cell["\<\
+You can put and get multiple variables at one time, just place them \
+in curly brackets.\
+\>", "MathCaption",
+  CellTags->{"S5.2.1", "1.7"}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(mPut[{"\<x\>", "\<y\>"}]\)], "Input",
+  CellLabel->"In[9]:="],
+
+Cell[BoxData[
+    \({"x", "y"}\)], "Output",
+  CellLabel->"Out[9]="]
+}, Open  ]],
+
+Cell["This will compute the eigenvectors and eigenvalues of y+i*x.", \
+"MathCaption",
+  CellTags->{"S5.2.1", "1.9"}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(mCmd["\<[v,d]=eig(y+i*x)\>"]\)], "Input",
+  CellLabel->"In[10]:="],
+
+Cell[BoxData[
+    \("\nv =\n\n   0.4641 + 0.0000i  -0.2870 + 0.0000i  -0.5126 - 0.0000i\n  \
+-0.4169 + 0.0000i  -0.6496 + 0.0000i   0.7711          \n   0.7815            \
+ 0.7040             0.3778 + 0.0000i\n\n\nd =\n\n  -0.2768 - 3.6125i        0 \
+                 0          \n        0             0.1851 + 5.4013i        0 \
+         \n        0                  0             0.0717 +13.9433i\n\n"\)], \
+"Output",
+  CellLabel->"Out[10]="]
+}, Open  ]],
+
+Cell["And get them back.", "MathCaption",
+  CellTags->{"S5.2.1", "1.9"}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\({eigvect, eigval} = 
+        Chop[mGet[{"\<v\>", "\<d\>"}]];\)\), "\[IndentingNewLine]", 
+    \(MatrixForm[eigvect]\), "\[IndentingNewLine]", 
+    \(MatrixForm[eigval]\)}], "Input",
+  CellLabel->"In[11]:="],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {
+              "0.46411259799450155`", \(-0.2870290808137921`\), \
+\(-0.5125917224832337`\)},
+            {\(-0.4168822586435881`\), \(-0.6495815069519559`\), 
+              "0.771052228922594`"},
+            {"0.7815424996831681`", "0.7040299514887244`", 
+              "0.3777938410233431`"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output",
+  CellLabel->"Out[12]//MatrixForm="],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(\(-0.2768146692482798`\) - 3.612525314195252`\ \[ImaginaryI]\),
+               "0", "0"},
+            {
+              "0", \(\(\(0.18514059499819668`\)\(\[InvisibleSpace]\)\) + 
+                5.401300563011281`\ \[ImaginaryI]\), "0"},
+            {"0", 
+              "0", \(\(\(0.07171915923100519`\)\(\[InvisibleSpace]\)\) + 
+                13.943275558752834`\ \[ImaginaryI]\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output",
+  CellLabel->"Out[13]//MatrixForm="]
+}, Open  ]],
+
+Cell["\<\
+mShow[]\tshow the MATLAB command window
+mHide[]\thide the MATLAB command window\
+\>", "Text",
+  CellFrame->True,
+  Background->GrayLevel[0.833326]],
+
+Cell["Set visibility of the MATLAB command window", "Caption",
+  CellTags->"S5.2.1"],
+
+Cell["\<\
+It's more convenient to type commands in a MATLAB command window. \
+Use mShow to bring it up. If you need to do a lot of interation with MATLAB, \
+mCmd would be tedious.\
+\>", "MathCaption",
+  CellTags->{"S5.2.1", "1.12"}],
+
+Cell["mShow[]", "Input",
+  CellLabel->"In[14]:=",
+  CellTags->"S5.2.1"],
+
+Cell["Use mHide[] to hide it.", "MathCaption",
+  CellTags->{"S5.2.1", "1.12"}],
+
+Cell[BoxData[
+    \(mHide[]\)], "Input",
+  CellLabel->"In[15]:="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Understanding mEngine", "Subsection"],
+
+Cell["Here are all the functions in mEngine`.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(?mEngine`*\)\)], "Input",
+  CellLabel->"In[16]:="],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["mEngine`",
+            FontFamily->"Helvetica",
+            FontSize->12,
+            FontWeight->"Bold"]},
+        {GridBox[{
+              {
+                ButtonBox[
+                  StyleBox["eng",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`eng"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], 
+                ButtonBox[
+                  StyleBox["engCmd",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`engCmd"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], 
+                ButtonBox[
+                  StyleBox["engIsOpen",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`engIsOpen"},
+                  
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], 
+                ButtonBox[
+                  StyleBox["engPut",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`engPut"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], 
+                ButtonBox[
+                  StyleBox["mCmd",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`mCmd"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], 
+                ButtonBox[
+                  StyleBox["mHide",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`mHide"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], 
+                ButtonBox[
+                  StyleBox["mShow",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`mShow"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], ""},
+              {
+                ButtonBox[
+                  StyleBox["engClose",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`engClose"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], 
+                ButtonBox[
+                  StyleBox["engGet",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`engGet"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], 
+                ButtonBox[
+                  StyleBox["engOpen",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`engOpen"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], 
+                ButtonBox[
+                  StyleBox["engVis",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`engVis"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], 
+                ButtonBox[
+                  StyleBox["mGet",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`mGet"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], 
+                ButtonBox[
+                  StyleBox["mPut",
+                    FontColor->RGBColor[0, 0, 1],
+                    FontVariations->{"Underline"->True}],
+                  
+                  ButtonFunction:>(
+                    Internal`PutInformation[ #, LongForm -> False]&),
+                  ButtonEvaluator->Automatic,
+                  ButtonData:>{"Info3257439967-3147092", "mEngine`mPut"},
+                  ButtonFrame->"None",
+                  ButtonNote->"mEngine`"], "", ""}
+              },
+            RowMinHeight->{1, 1.05}]}
+        },
+      RowSpacings->{2, 3},
+      ColumnAlignments->{Left},
+      ColumnsEqual->True]], "Print",
+  CellMargins->{{20, Inherited}, {Inherited, Inherited}},
+  ShowCellLabel->False,
+  CellFrameMargins->{{Inherited, Inherited}, {14, 14}},
+  Background->GrayLevel[0.930022],
+  ButtonBoxOptions->{Active->True}]
+}, Open  ]],
+
+Cell[TextData[{
+  "All eng functions are mapped in mEngine.exe, which then call the MATLAB \
+Engine Library functions. However, some of them are not easy to use, like \
+engPut. The m functions are just wrappers of the eng's. They provide for a \
+better interface. eng is the ",
+  StyleBox["MathLink",
+    FontSlant->"Italic"],
+  " connection to mEngine.exe. You can edit the mEngine.m file to better meet \
+your needs."
+}], "Text"],
+
+Cell["\<\
+You can write your own functions based on the eng's and m's. \
+Suppose you need a function that gives the eigenvalues of a magic matrix. A \
+possible implementation is:\
+\>", "MathCaption",
+  CellTags->{"S5.2.1", "1.12"}],
+
+Cell[BoxData[
+    \(\(\(MagicEigenValues[n_] := 
+      If[engIsOpen[], \((engCmd["\<m=magic(\>" <> ToString[n] <> "\<)\>"]; 
+          engCmd["\<meig=eig(m)\>"]; 
+          mGet["\<meig\>"])\), "\<MATLAB not opened.\>"]\)\(\
+\[IndentingNewLine]\)
+    \)\)], "Input",
+  CellLabel->"In[17]:="],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MagicEigenValues[15] // MatrixForm\)], "Input",
+  CellLabel->"In[18]:="],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1695.0000000000036`"},
+            {\(-541.0949771205651`\)},
+            {"541.0949771205665`"},
+            {\(-276.58872527370636`\)},
+            {"276.58872527370636`"},
+            {\(-191.39760014392726`\)},
+            {\(-151.39893686634034`\)},
+            {\(-129.6148139681573`\)},
+            {\(-113.10731498051918`\)},
+            {\(-118.28760991390979`\)},
+            {"191.397600143927`"},
+            {"151.39893686634014`"},
+            {"129.61481396815734`"},
+            {"113.10731498051928`"},
+            {"118.28760991390995`"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output",
+  CellLabel->"Out[18]//MatrixForm="]
+}, Open  ]],
+
+Cell["\<\
+You may want to uninstall mEngine.exe when you have finished with \
+it. This would also close the MATLAB Engine.\
+\>", "MathCaption",
+  CellTags->{"S5.2.1", "1.12"}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Uninstall[eng]\)], "Input",
+  CellLabel->"In[19]:="],
+
+Cell[BoxData[
+    \("C:\\Program Files\\Wolfram \
+Research\\Mathematica\\4.2\\AddOns\\Applications\\mEngine.exe"\)], "Output",
+  CellLabel->"Out[19]="]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"4.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1024}, {0, 723}},
+WindowSize->{792, 528},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True,
+CellLabelAutoDelete->False,
+Magnification->1,
+StyleDefinitions -> "HelpBrowser.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{
+  "S5.2.1"->{
+    Cell[2038, 66, 65, 1, 39, "Subsection",
+      CellTags->{"S5.2.1", "1.1"}],
+    Cell[2106, 69, 653, 20, 59, "Text",
+      CellTags->{"S5.2.1", "1.2"}],
+    Cell[3896, 132, 156, 6, 17, "Caption",
+      CellTags->"S5.2.1"],
+    Cell[4055, 140, 77, 1, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.3"}],
+    Cell[4135, 143, 73, 2, 31, "Input",
+      CellTags->"S5.2.1"],
+    Cell[4211, 147, 208, 6, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.3"}],
+    Cell[4422, 155, 282, 9, 68, "Input",
+      CellTags->"S5.2.1"],
+    Cell[4707, 166, 281, 6, 48, "MathCaption",
+      CellTags->{"S5.2.1", "1.5"}],
+    Cell[5013, 176, 74, 2, 31, "Input",
+      CellTags->"S5.2.1"],
+    Cell[5678, 206, 173, 4, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.6"}],
+    Cell[5876, 214, 81, 2, 31, "Input",
+      CellTags->"S5.2.1"],
+    Cell[6264, 226, 148, 4, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.6"}],
+    Cell[6701, 244, 63, 1, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.7"}],
+    Cell[6789, 249, 99, 5, 51, "Input",
+      CellTags->"S5.2.1"],
+    Cell[7414, 271, 150, 4, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.7"}],
+    Cell[7756, 288, 116, 2, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.9"}],
+    Cell[8448, 308, 72, 1, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.9"}],
+    Cell[10095, 359, 84, 1, 17, "Caption",
+      CellTags->"S5.2.1"],
+    Cell[10182, 362, 232, 5, 48, "MathCaption",
+      CellTags->{"S5.2.1", "1.12"}],
+    Cell[10417, 369, 71, 2, 31, "Input",
+      CellTags->"S5.2.1"],
+    Cell[10491, 373, 78, 1, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.12"}],
+    Cell[18452, 570, 231, 5, 48, "MathCaption",
+      CellTags->{"S5.2.1", "1.12"}],
+    Cell[19899, 616, 175, 4, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.12"}]},
+  "1.1"->{
+    Cell[2038, 66, 65, 1, 39, "Subsection",
+      CellTags->{"S5.2.1", "1.1"}]},
+  "1.2"->{
+    Cell[2106, 69, 653, 20, 59, "Text",
+      CellTags->{"S5.2.1", "1.2"}]},
+  "1.3"->{
+    Cell[4055, 140, 77, 1, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.3"}],
+    Cell[4211, 147, 208, 6, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.3"}]},
+  "1.5"->{
+    Cell[4707, 166, 281, 6, 48, "MathCaption",
+      CellTags->{"S5.2.1", "1.5"}]},
+  "1.6"->{
+    Cell[5678, 206, 173, 4, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.6"}],
+    Cell[6264, 226, 148, 4, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.6"}]},
+  "1.7"->{
+    Cell[6701, 244, 63, 1, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.7"}],
+    Cell[7414, 271, 150, 4, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.7"}]},
+  "1.9"->{
+    Cell[7756, 288, 116, 2, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.9"}],
+    Cell[8448, 308, 72, 1, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.9"}]},
+  "1.12"->{
+    Cell[10182, 362, 232, 5, 48, "MathCaption",
+      CellTags->{"S5.2.1", "1.12"}],
+    Cell[10491, 373, 78, 1, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.12"}],
+    Cell[18452, 570, 231, 5, 48, "MathCaption",
+      CellTags->{"S5.2.1", "1.12"}],
+    Cell[19899, 616, 175, 4, 31, "MathCaption",
+      CellTags->{"S5.2.1", "1.12"}]}
+  }
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{
+  {"S5.2.1", 21060, 655},
+  {"1.1", 22855, 702},
+  {"1.2", 22947, 705},
+  {"1.3", 23035, 708},
+  {"1.5", 23212, 713},
+  {"1.6", 23307, 716},
+  {"1.7", 23485, 721},
+  {"1.9", 23662, 726},
+  {"1.12", 23840, 731}
+  }
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 88, 1, 83, "Title"],
+Cell[1867, 56, 146, 6, 107, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[2038, 66, 65, 1, 39, "Subsection",
+  CellTags->{"S5.2.1", "1.1"}],
+Cell[2106, 69, 653, 20, 59, "Text",
+  CellTags->{"S5.2.1", "1.2"}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2796, 94, 34, 0, 39, "Subsection"],
+Cell[2833, 96, 197, 5, 25, "Text"],
+Cell[3033, 103, 319, 7, 42, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3389, 115, 35, 0, 39, "Subsection"],
+Cell[3427, 117, 217, 5, 25, "Text"],
+Cell[3647, 124, 246, 6, 91, "Text"],
+Cell[3896, 132, 156, 6, 17, "Caption",
+  CellTags->"S5.2.1"],
+Cell[4055, 140, 77, 1, 31, "MathCaption",
+  CellTags->{"S5.2.1", "1.3"}],
+Cell[4135, 143, 73, 2, 31, "Input",
+  CellTags->"S5.2.1"],
+Cell[4211, 147, 208, 6, 31, "MathCaption",
+  CellTags->{"S5.2.1", "1.3"}],
+Cell[4422, 155, 282, 9, 68, "Input",
+  CellTags->"S5.2.1"],
+Cell[4707, 166, 281, 6, 48, "MathCaption",
+  CellTags->{"S5.2.1", "1.5"}],
+
+Cell[CellGroupData[{
+Cell[5013, 176, 74, 2, 31, "Input",
+  CellTags->"S5.2.1"],
+Cell[5090, 180, 113, 2, 23, "Message"],
+Cell[5206, 184, 61, 2, 23, "Output"]
+}, Open  ]],
+Cell[5282, 189, 114, 3, 25, "Text"],
+
+Cell[CellGroupData[{
+Cell[5421, 196, 70, 2, 29, "Input"],
+Cell[5494, 200, 169, 3, 156, "Output"]
+}, Open  ]],
+Cell[5678, 206, 173, 4, 31, "MathCaption",
+  CellTags->{"S5.2.1", "1.6"}],
+
+Cell[CellGroupData[{
+Cell[5876, 214, 81, 2, 31, "Input",
+  CellTags->"S5.2.1"],
+Cell[5960, 218, 289, 5, 175, "Output"]
+}, Open  ]],
+Cell[6264, 226, 148, 4, 31, "MathCaption",
+  CellTags->{"S5.2.1", "1.6"}],
+
+Cell[CellGroupData[{
+Cell[6437, 234, 77, 2, 29, "Input"],
+Cell[6517, 238, 169, 3, 156, "Output"]
+}, Open  ]],
+Cell[6701, 244, 63, 1, 31, "MathCaption",
+  CellTags->{"S5.2.1", "1.7"}],
+
+Cell[CellGroupData[{
+Cell[6789, 249, 99, 5, 51, "Input",
+  CellTags->"S5.2.1"],
+Cell[6891, 256, 508, 12, 65, "Output"]
+}, Open  ]],
+Cell[7414, 271, 150, 4, 31, "MathCaption",
+  CellTags->{"S5.2.1", "1.7"}],
+
+Cell[CellGroupData[{
+Cell[7589, 279, 81, 2, 29, "Input"],
+Cell[7673, 283, 68, 2, 23, "Output"]
+}, Open  ]],
+Cell[7756, 288, 116, 2, 31, "MathCaption",
+  CellTags->{"S5.2.1", "1.9"}],
+
+Cell[CellGroupData[{
+Cell[7897, 294, 86, 2, 29, "Input"],
+Cell[7986, 298, 447, 7, 289, "Output"]
+}, Open  ]],
+Cell[8448, 308, 72, 1, 31, "MathCaption",
+  CellTags->{"S5.2.1", "1.9"}],
+
+Cell[CellGroupData[{
+Cell[8545, 313, 229, 5, 69, "Input"],
+Cell[8777, 320, 524, 13, 65, "Output"],
+Cell[9304, 335, 616, 14, 65, "Output"]
+}, Open  ]],
+Cell[9935, 352, 157, 5, 66, "Text"],
+Cell[10095, 359, 84, 1, 17, "Caption",
+  CellTags->"S5.2.1"],
+Cell[10182, 362, 232, 5, 48, "MathCaption",
+  CellTags->{"S5.2.1", "1.12"}],
+Cell[10417, 369, 71, 2, 31, "Input",
+  CellTags->"S5.2.1"],
+Cell[10491, 373, 78, 1, 31, "MathCaption",
+  CellTags->{"S5.2.1", "1.12"}],
+Cell[10572, 376, 65, 2, 29, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10674, 383, 43, 0, 39, "Subsection"],
+Cell[10720, 385, 55, 0, 25, "Text"],
+
+Cell[CellGroupData[{
+Cell[10800, 389, 72, 2, 29, "Input"],
+Cell[10875, 393, 7128, 163, 87, "Print"]
+}, Open  ]],
+Cell[18018, 559, 431, 9, 59, "Text"],
+Cell[18452, 570, 231, 5, 48, "MathCaption",
+  CellTags->{"S5.2.1", "1.12"}],
+Cell[18686, 577, 291, 7, 89, "Input"],
+
+Cell[CellGroupData[{
+Cell[19002, 588, 92, 2, 29, "Input"],
+Cell[19097, 592, 787, 21, 257, "Output"]
+}, Open  ]],
+Cell[19899, 616, 175, 4, 31, "MathCaption",
+  CellTags->{"S5.2.1", "1.12"}],
+
+Cell[CellGroupData[{
+Cell[20099, 624, 72, 2, 29, "Input"],
+Cell[20174, 628, 151, 3, 23, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
