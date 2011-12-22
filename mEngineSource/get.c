@@ -19,8 +19,8 @@ extern void msg(const char* m);
 void engget(const char* VarName)
 {
 	mxArray*	MxVar = NULL;	//pointer for the variable to get
-	const int*	dimlab = NULL;	//MATLAB dimension
-	int*		dimma = NULL;	//Mathematica dimension
+	const mwSize*	dimlab = NULL;	//MATLAB dimension
+	long*		dimma = NULL;	//Mathematica dimension
 	int			Depth = 0;		//depth
 	double*		Pr = NULL;		//pointer to real
 	double*		Pi = NULL;		//pointer to imaginary
@@ -53,7 +53,7 @@ void engget(const char* VarName)
 	dimlab = mxGetDimensions(MxVar);
 
 	//translate dimension information to Mathematica
-	dimma = mxCalloc(Depth, sizeof(int));
+	dimma = mxCalloc(Depth, sizeof(long));
 	for(i=0; i<Depth; ++i)
 		dimma[i] = dimlab[Depth - 1 - i];
 	//data pointer

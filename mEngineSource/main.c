@@ -16,6 +16,8 @@
 
 Engine* Eng = NULL;
 
+#if WINDOWS_MATHLINK
+
 int PASCAL WinMain( HINSTANCE hinstCurrent, HINSTANCE hinstPrevious, LPSTR lpszCmdLine, int nCmdShow)
 {
 	char buff[512];
@@ -40,3 +42,11 @@ int PASCAL WinMain( HINSTANCE hinstCurrent, HINSTANCE hinstPrevious, LPSTR lpszC
 	return ml_main;
 
 }
+
+#else
+
+int main(int argc, char *argv[])
+{
+  return MLMain(argc, argv);
+}
+#endif

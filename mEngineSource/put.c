@@ -12,17 +12,25 @@
 
 #include "mathlink.h"
 #include "engine.h"
+#include "string.h"
 
 extern Engine* Eng;
 extern void msg(const char* m);
 
 // put a real array to the MatLab workspace
 void engputr(const char* VarName,
-		     const int* Dim, int Depth,
+		     const int* Dim, const int Depth,
 		     const double* Val, int ValLen)
 {
 	mxArray* MxVar = NULL;		//the variable to be put
 	bool SUCCESS = true;		//success flag
+    int i;
+    const mwSize depth = Depth;
+    mwSize dim[Depth];
+    /* int and mwSize are no longer the same on 64-bit platforms is my
+     * guess. -Shane */
+    for (i = 0; i < Depth; i++)
+      dim[i] = Dim[i];
 
 	if (NULL == Eng)	//if not opened yet
 	{
@@ -30,9 +38,9 @@ void engputr(const char* VarName,
 		SUCCESS = false;
 		goto epilog;
 	}
-	
 	//create mxArray 
-	MxVar = mxCreateNumericArray(Depth, Dim, mxDOUBLE_CLASS, mxREAL);
+    
+	MxVar = mxCreateNumericArray(depth, dim, mxDOUBLE_CLASS, mxREAL);
 	if (NULL == MxVar)
 	{
 		msg("engPut::ercrt");
@@ -68,6 +76,13 @@ void engputc(const char* VarName,
 {
 	mxArray* MxVar = NULL;		//the variable to be put
 	bool SUCCESS = true;		//success flag
+    int i;
+    const mwSize depth = Depth;
+    mwSize dim[Depth];
+    /* int and mwSize are no longer the same on 64-bit platforms is my
+     * guess. -Shane */
+    for (i = 0; i < Depth; i++)
+      dim[i] = Dim[i];
 
 	if (NULL == Eng)	//if not opened yet, open it
 	{
@@ -77,7 +92,7 @@ void engputc(const char* VarName,
 	}
 	
 	//create mxArray 
-	MxVar = mxCreateNumericArray(Depth, Dim, mxDOUBLE_CLASS, mxCOMPLEX);
+	MxVar = mxCreateNumericArray(depth, dim, mxDOUBLE_CLASS, mxCOMPLEX);
 	if (NULL == MxVar)
 	{
 		msg("engPut::ercrt");

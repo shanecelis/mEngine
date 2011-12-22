@@ -9,24 +9,15 @@
  *
 *******************************************************/
 
-:Evaluate:
-	BeginPackage["mEngine`"]
+:Evaluate:	BeginPackage["mEngine`"];
 
-:Evaluate:
-	eng::arg = 
-	"Eng function argument error."
+:Evaluate:	eng::arg = 	"Eng function argument error.";
 
-:Evaluate:
-	eng::stMLB = 
-	"Starting MATLAB..."
+:Evaluate:	eng::stMLB = 	"Starting MATLAB..."
 
-:Evaluate:
-	eng::erMLB = 
-	"Error starting MATLAB."
+:Evaluate:	eng::erMLB = 	"Error starting MATLAB."
 
-:Evaluate:
-	eng::noMLB = 
-	"MATLAB not opened."
+:Evaluate: eng::noMLB = "MATLAB not opened."
 
 :Evaluate:
 	eng::aoMLB = 
@@ -157,10 +148,7 @@
 
 :Begin:
 :Function:		engputr
-:Pattern:		engPut[nm_String, dim_, val_]/;
-				VectorQ[dim, ToString[Head[#]] == "Integer" &] &&
-				VectorQ[val, ToString[Head[#]] == "Real" &] &&
-				Times@@dim == Length[val]
+:Pattern:		engPut[nm_String, dim_, val_]/; 				VectorQ[dim, ToString[Head[#]] == "Integer" &] && 				VectorQ[val, ToString[Head[#]] == "Real" &] && 				Times@@dim == Length[val]
 
 :Arguments:		{nm, dim, val}
 :ArgumentTypes:	{String, IntegerList, RealList}
@@ -169,11 +157,7 @@
 
 :Begin:
 :Function:		engputc
-:Pattern:		engPut[nm_String, dim_, re_, im_]/;
-				VectorQ[dim, ToString[Head[#]] == "Integer" &] &&
-				VectorQ[re, ToString[Head[#]] == "Real" &] &&
-				VectorQ[im, ToString[Head[#]] == "Real" &] &&
-				Times@@dim == Length[re] == Length[im]
+:Pattern:		engPut[nm_String, dim_, re_, im_]/;				VectorQ[dim, ToString[Head[#]] == "Integer" &] &&				VectorQ[re, ToString[Head[#]] == "Real" &] &&				VectorQ[im, ToString[Head[#]] == "Real" &] &&				Times@@dim == Length[re] == Length[im]
 
 :Arguments:		{nm, dim, re, im}
 :ArgumentTypes:	{String, IntegerList, RealList, RealList}

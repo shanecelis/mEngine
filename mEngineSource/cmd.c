@@ -11,6 +11,7 @@
  */
 
 #include "mathlink.h"
+#include "string.h"
 #include "engine.h"
 
 #define  BUFSIZE (20*1024)	//20k for output buffer
